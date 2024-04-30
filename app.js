@@ -59,7 +59,7 @@ const reviews = [
 ];
 
 
-// guardar los elementos del DOM en constantes
+// Guardar los elementos del DOM en constantes
 
 // Opiniones card izquierda
 const img = document.getElementById('person-img');
@@ -73,21 +73,26 @@ const autorRigthCard = document.getElementById('autor-right');
 const trabajoRigthCard = document.getElementById('trabajo-right');
 const infoRigthCard = document.getElementById('info-right');
 
+// Botones
 const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
 const randomBtn = document.querySelector('.random-btn');
 
-// iniciar el contador a 0
+// Iniciar el contador a 0
 var contador = 0;
 
 // Cargar el primer item
 window.addEventListener('DOMContentLoaded', function () {
   const item = reviews[contador];
   const item2 = reviews[contador + 1];
+
+  // Card izquierda
   img.src = item.img;
   autor.textContent = item.name;
   trabajo.textContent = item.trabajo;
   info.textContent = item.descripcion;
+
+  // Card derecha
   imgRigthCard.src = item2.img;
   autorRigthCard.textContent = item2.name;
   trabajoRigthCard.textContent = item2.trabajo;
@@ -97,11 +102,23 @@ window.addEventListener('DOMContentLoaded', function () {
 // Mostar persona guardada como item
 function showPerson(person) {
   const item = reviews[person];
-  const item2 = reviews[person + 1];
+
+  /* Comprobación para si se utiliza random y saliese como opción el último elemento del array, daría error porque intentaría coger el elemento con posición 8. Así nos aseguramos que en caso de coger para el primer bloque el elemento [7] pase en segunda opción al elemento [0]*/
+
+  if (person > reviews.length - 2) {
+    person = 0;
+    var item2 = reviews[person];
+  } else {
+    var item2 = reviews[person + 1];
+  }
+
+  // Card izquierda
   img.src = item.img;
   autor.textContent = item.name;
   trabajo.textContent = item.trabajo;
   info.textContent = item.descripcion;
+
+  // Card derecha
   imgRigthCard.src = item2.img;
   autorRigthCard.textContent = item2.name;
   trabajoRigthCard.textContent = item2.trabajo;
@@ -110,7 +127,8 @@ function showPerson(person) {
 
 // Mostrar siguiente persona
 nextBtn.addEventListener('click', function () {
-  contador++;
+  contador += 2;
+  // Si contador es mayor que 7 que sería el último elemento del array, tendría que volver a la posición 0.
   if (contador > reviews.length - 1) {
     contador = 0;
   }
@@ -119,7 +137,7 @@ nextBtn.addEventListener('click', function () {
 
 // Mostrar persona anterior
 prevBtn.addEventListener('click', function () {
-  contador--;
+  contador -= 2;
   if (contador < 0) {
     contador = reviews.length - 1;
   }
@@ -127,7 +145,7 @@ prevBtn.addEventListener('click', function () {
 });
 
 // Mostrar persona aleatoria
-// randomBtn.addEventListener('click', function () {
-//   contador = Math.floor(Math.random() * reviews.length);
-//   showPerson(contador);
-// });
+randomBtn.addEventListener('click', function () {
+  contador = Math.floor(Math.random() * reviews.length);
+  showPerson(contador);
+});
